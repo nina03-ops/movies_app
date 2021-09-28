@@ -9,12 +9,12 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
     @Column()
     title: string;
     
-    @Column()
-    released: string;
+    @Column({nullable: true})
+    released: Date;
 
-    @Column()
-    genre: number;
+    @Column({nullable: true})
+    genre: string;
 
-    @Column()
-    director: number;
+    @Column({nullable: true})
+    director: string;
 }
