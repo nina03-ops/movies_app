@@ -6,10 +6,13 @@ export class MovieDto {
    
    @ApiProperty()
    title: string;
-   
+
    @ApiProperty()
-   description: string;
-   
+   released: Date;
+
    @ApiProperty()
-   price: number;
+   genre: string;
+
+   @ApiProperty()
+   director: string;
 }
