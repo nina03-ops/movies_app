@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    build: .
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DBHOST: db
+      POSTGRES_DBUSERNAME: postgres
+      POSTGRES_DBPASS: password
+      POSTGRES_DBNAME: movies
+      APIKEY: 197677e6
+    ports:
+      - '3000:3000'
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: movies
+    ports:
+      - 5432:5432
