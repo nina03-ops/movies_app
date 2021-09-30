@@ -4,8 +4,10 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { MovieDto } from './dto/movie.dto';
 import { REQUEST } from '@nestjs/core';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('movies')
+@ApiBearerAuth('token')
 export class MoviesController {
   constructor(
     @Inject(REQUEST) private request,

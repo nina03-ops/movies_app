@@ -4,8 +4,18 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
   const config = new DocumentBuilder()
+  .addBearerAuth(
+    {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      name: 'JWT',
+      description: 'Enter JWT token',
+      in: 'header',
+    },
+    'token'
+  )
     .setTitle('Movies')
     .setDescription('Movies fetched from https://omdbapi.com/ and saved to the database')
     .setVersion('1.0')
