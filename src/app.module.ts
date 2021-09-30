@@ -1,15 +1,12 @@
 require('dotenv').config();
 
-
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MoviesModule } from './movies/movies.module';
 import * as connectionOptions from './ormconfig';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-
-
+import { AuthMiddleware } from './common/auth.middleware';
 @Module({
   imports: [
     MoviesModule,
@@ -18,4 +15,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule {}
+export class AppModule {  
+  public configure(consumer: MiddlewareConsumer) {
+  consumer
+    .apply(AuthMiddleware)
+    .forRoutes('movies');
+  }}

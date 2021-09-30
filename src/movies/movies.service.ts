@@ -19,16 +19,24 @@ export class MoviesService {
       return await this.moviesRepository.save(createMovie);
     }
  
-  public async getAll(): Promise<Movie[]> {
-    const foundMovies = await this.moviesRepository.find();
+  public async getAll(userId:number): Promise<Movie[]> {
+    let foundMovies = this.moviesRepository.createQueryBuilder("movie").where("movie.userId = :userId", { userId:userId }).getMany()      
     if (!foundMovies) {
       throw new NotFoundException('Movies not found');
     }
     return foundMovies;
   }
- 
-    async fetch(search:string):Promise<MovieAPI>{
-      let apiURL = `http://www.omdbapi.com/?apikey=${process.env.APIKEY}&t=${search}`;
-      return await firstValueFrom(this.http.get(apiURL).pipe(map(res => res.data)));
+
+  public async countAll(userId:number): Promise<number> {
+    let countedMovies = this.moviesRepository.createQueryBuilder("movie").where("movie.userId = :userId", { userId:userId }).getCount()
+    if (!countedMovies) {
+      throw new NotFoundException('Movies not found');
     }
+    return countedMovies;
+  }
+
+  async fetch(search:string):Promise<MovieAPI>{
+    let apiURL = `http://www.omdbapi.com/?apikey=${process.env.APIKEY}&t=${search}`;
+    return await firstValueFrom(this.http.get(apiURL).pipe(map(res => res.data)));
+  }
 }

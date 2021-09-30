@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
+@Unique(["title", "userId"])
   export class Movie{
 
     @PrimaryGeneratedColumn()
@@ -17,4 +18,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
     @Column({nullable: true})
     director: string;
+
+    @Column({nullable: true})
+    userId: number;
 }

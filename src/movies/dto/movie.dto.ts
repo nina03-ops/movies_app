@@ -15,4 +15,7 @@ export class MovieDto {
 
    @ApiProperty()
    director: string;
+
+   @ApiProperty()
+   userId: number;
 }
