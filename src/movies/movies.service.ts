@@ -2,25 +2,25 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { map } from 'rxjs/operators';
-import { Repository } from 'typeorm';
 import { Movie } from './entities/movie.entity';
 import { firstValueFrom } from 'rxjs';
 import { MovieAPI } from './movieAPI';
+import { MovieRepository } from './movie.repository';
 
 @Injectable()
 export class MoviesService {
-  constructor( 
-    @InjectRepository(Movie)
-    private moviesRepository: Repository<Movie>,
+  constructor(
+    @InjectRepository(MovieRepository)
+    private repository: MovieRepository,
     private http: HttpService
-    ){}
+  ) {}
   
   public async create(createMovie: Movie): Promise<Movie> {
-      return await this.moviesRepository.save(createMovie);
+      return await this.repository.save(createMovie);
     }
  
   public async getAll(userId:number): Promise<Movie[]> {
-    let foundMovies = this.moviesRepository.createQueryBuilder("movie").where("movie.userId = :userId", { userId:userId }).getMany()      
+    let foundMovies = this.repository.createQueryBuilder("movie").where("movie.userId = :userId", { userId:userId }).getMany()      
     if (!foundMovies) {
       throw new NotFoundException('Movies not found');
     }
@@ -28,7 +28,7 @@ export class MoviesService {
   }
 
   public async countAll(userId:number): Promise<number> {
-    let countedMovies = this.moviesRepository.createQueryBuilder("movie").where("movie.userId = :userId", { userId:userId }).getCount()
+    let countedMovies = this.repository.createQueryBuilder("movie").where("movie.userId = :userId", { userId:userId }).getCount()
     if (!countedMovies) {
       throw new NotFoundException('Movies not found');
     }
