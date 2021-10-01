@@ -27,8 +27,11 @@ export class MoviesService {
     return foundMovies;
   }
 
-  public async countAll(userId:number): Promise<number> {
-    let countedMovies = this.repository.createQueryBuilder("movie").where("movie.userId = :userId", { userId:userId }).getCount()
+  public async countAll(userId:number, created_at:Date): Promise<number> {
+    let countedMovies = this.repository.createQueryBuilder("movie")
+      .where("movie.userId = :userId", { userId:userId })
+      .orWhere("movie.created_at > :created_at", { created_at:created_at })
+      .getCount()
     if (!countedMovies) {
       throw new NotFoundException('Movies not found');
     }
