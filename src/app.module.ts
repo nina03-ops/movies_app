@@ -1,8 +1,6 @@
 require('dotenv').config();
 
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { MoviesModule } from './movies/movies.module';
 import * as connectionOptions from './ormconfig';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,8 +12,8 @@ import { MovieRepository } from './movies/movie.repository';
     TypeOrmModule.forFeature([MovieRepository]),
     TypeOrmModule.forRoot({...connectionOptions, autoLoadEntities: true})
   ],
-  controllers: [AppController],
-  providers: [AppService]
+  controllers: [],
+  providers: []
 })
 export class AppModule {  
   public configure(consumer: MiddlewareConsumer) {

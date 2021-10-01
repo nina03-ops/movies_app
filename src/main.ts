@@ -20,7 +20,6 @@ async function bootstrap() {
     .setTitle('Movies')
     .setDescription('Movies fetched from https://omdbapi.com/ and saved to the database')
     .setVersion('1.0')
-    .addTag('movies')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

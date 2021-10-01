@@ -18,7 +18,6 @@ const connectionOptions: ConnectionOptions = {
   entities: [Movie],
   synchronize: true,
   logging: true,
-  // ssl: true
 }
 
 
