@@ -23,11 +23,14 @@ export class MoviesController {
     movie.genre = fetchedMovie.Genre;
     movie.director = fetchedMovie.Director;
     movie.userId = tokenUser.userId;
-    if (tokenUser.role === "basic" && (await this.moviesService.countAll(tokenUser.userId)) >= 5){
-      throw new UnauthorizedException('User with basic role can save max 5 movies.');
-    } 
+    var myPastDate=new Date();
+    myPastDate.setDate(myPastDate.getDate() - 30);
+    if (tokenUser.role === "basic" && (await this.moviesService.countAll(tokenUser.userId, myPastDate)) >= 5){
+      throw new UnauthorizedException('User with basic role can save max 5 movies per month.');
+    }
     const savedMovie = await this.moviesService.create(movie);
     const movieDto = new MovieDto();
+    movieDto.id = savedMovie.id;
     movieDto.title = savedMovie.title;
     movieDto.released = savedMovie.released;
     movieDto.genre = savedMovie.genre;

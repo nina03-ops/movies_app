@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
 @Unique(["title", "userId"])
@@ -21,4 +21,7 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
     @Column({nullable: true})
     userId: number;
+
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+    created_at: Date;
 }
