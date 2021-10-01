@@ -9,7 +9,8 @@ services:
       POSTGRES_DBUSERNAME: postgres
       POSTGRES_DBPASS: password
       POSTGRES_DBNAME: movies
-      APIKEY: 197677e6
+      APIKEY: "197677e6"
+      JWT_SECRET: secret
     ports:
       - '3000:3000'
 
