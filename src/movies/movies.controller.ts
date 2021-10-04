@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Inject, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Inject, UnauthorizedException, Param } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entity';
@@ -43,6 +43,11 @@ export class MoviesController {
   findAll() {
     const tokenUser = this.request.user;
     return this.moviesService.getAll(tokenUser.userId);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.moviesService.findOne(+id);
   }
 
 }

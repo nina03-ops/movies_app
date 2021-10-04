@@ -42,4 +42,12 @@ export class MoviesService {
     let apiURL = `http://www.omdbapi.com/?apikey=${process.env.APIKEY}&t=${search}`;
     return await firstValueFrom(this.http.get(apiURL).pipe(map(res => res.data)));
   }
+
+  async findOne(id: number) {
+    const foundMovie = await this.repository.findOne(id);
+    if (!foundMovie) {
+      throw new NotFoundException('Movie not found');
+    }
+    return foundMovie;
+  }
 }
