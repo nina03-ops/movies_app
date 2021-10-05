@@ -10,16 +10,16 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique } from
     @Column()
     title: string;
     
-    @Column({nullable: true})
+    @Column()
     released: Date;
 
-    @Column({nullable: true})
+    @Column()
     genre: string;
 
-    @Column({nullable: true})
+    @Column()
     director: string;
 
-    @Column({nullable: true})
+    @Column()
     userId: number;
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
