@@ -6,14 +6,19 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { REQUEST } from '@nestjs/core';
 import { MovieAPI } from './movieAPI';
 import { MovieDto } from './dto/movie.dto';
+import { OmdbService } from '../omdb/omdb.service';
 
 describe('MoviesController', () => {
   let movieService: MoviesService;
+  let omdbService: OmdbService;
+
   let movieController: MoviesController;
   const mockMovieService = () => ({
     create: jest.fn(),
     getAll: jest.fn(),
-    countAll: jest.fn(),
+    countAll: jest.fn()
+  });
+  const mockOmdbService = () => ({
     fetch: jest.fn()
   });
 
@@ -25,6 +30,10 @@ describe('MoviesController', () => {
         {
           provide: MoviesService,
           useFactory: mockMovieService,
+        },
+        {
+          provide: OmdbService,
+          useFactory: mockOmdbService,
         },
         {
           provide: REQUEST,
@@ -45,6 +54,7 @@ describe('MoviesController', () => {
 
     movieController = module.get<MoviesController>(MoviesController);
     movieService = await module.get<MoviesService>(MoviesService);
+    omdbService = await module.get<OmdbService>(OmdbService);
   });
 
   describe('postMovie', () => {
@@ -55,7 +65,7 @@ describe('MoviesController', () => {
         Genre: "genre",
         Director: "director"
       }
-      Object(movieService.fetch).mockResolvedValue(movieFromOmdbApi);
+      Object(omdbService.fetch).mockResolvedValue(movieFromOmdbApi);
 
       const savedMovie:Movie = {
         id: 1,

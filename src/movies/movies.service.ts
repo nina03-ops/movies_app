@@ -1,10 +1,6 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { map } from 'rxjs/operators';
 import { Movie } from './entities/movie.entity';
-import { firstValueFrom } from 'rxjs';
-import { MovieAPI } from './movieAPI';
 import { MovieRepository } from './movie.repository';
 
 @Injectable()
@@ -12,7 +8,6 @@ export class MoviesService {
   constructor(
     @InjectRepository(MovieRepository)
     private repository: MovieRepository,
-    private http: HttpService
   ) {}
   
   public async create(createMovie: Movie): Promise<Movie> {
@@ -36,11 +31,6 @@ export class MoviesService {
       throw new NotFoundException('Movies not found');
     }
     return countedMovies;
-  }
-
-  async fetch(search:string):Promise<MovieAPI>{
-    let apiURL = `http://www.omdbapi.com/?apikey=${process.env.APIKEY}&t=${search}`;
-    return await firstValueFrom(this.http.get(apiURL).pipe(map(res => res.data)));
   }
 
   async findOne(id: number) {

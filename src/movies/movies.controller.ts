@@ -5,18 +5,20 @@ import { Movie } from './entities/movie.entity';
 import { MovieDto } from './dto/movie.dto';
 import { REQUEST } from '@nestjs/core';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { OmdbService } from '../omdb/omdb.service';
 
 @Controller('movies')
 @ApiBearerAuth('token')
 export class MoviesController {
   constructor(
     @Inject(REQUEST) private request,
+    private readonly omdbService: OmdbService,
     private readonly moviesService: MoviesService) {}
 
   @Post('create')
   public async create(@Body() createMovieDto: CreateMovieDto) {
     const tokenUser = this.request.user;
-    const fetchedMovie = await this.moviesService.fetch(createMovieDto.title);
+    const fetchedMovie = await this.omdbService.fetch(createMovieDto.title);
     const movie = new Movie();
     movie.title = fetchedMovie.Title;
     movie.released = fetchedMovie.Released;
